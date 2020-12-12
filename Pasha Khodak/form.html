@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OSS Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css"/>
+    <style>
+        label {
+            width: 100px;
+        }
+        label.error,
+        span.error {
+            color: red;
+        }
+        input {
+            border : 1px solid #ccc;
+        }
+        input.error {
+            border-color: red;
+        }
+        .content {
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="content">
+                <form onsubmit="myForm()" id="testForm">
+                    <div>
+                        <label for="firstName">First name</label>
+                        <input type="text" id="firstName"/>
+                        <span class="message error"></span>
+                    </div>
+
+                    <div>
+                        <label for="lastName">Last name</label>
+                        <input type="text" id="lastName"/>
+                        <span class="message error"></span>
+                    </div>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input class="input-email" type="text" id="email"/>
+                        <span class="message message-email error"></span>
+                    </div>
+
+                    <button type="submit">Send</button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var form = document.querySelector('#testForm'),
+        message = form.querySelectorAll('.message'),
+        inputs = form.querySelectorAll('input'),
+        email = form.querySelector('#email'),
+        messageEmail = form.querySelector('.message-email'),
+        inputEmail = form.querySelector('.input-email');
+
+    function myForm () {
+        event.preventDefault()
+        var inputsChecked = false;
+        var emailChecked = email.value.match(/^[A-z0-9._-]+@[A-z0-9.-]+\.[A-z]{2,4}$/);
+
+        inputs.forEach(function(item, index) {
+            if(!item.value) {
+                inputsChecked = false;
+                item.classList.add('error')
+                message[index].textContent = 'Поле должно быть заполнено'
+            } else {
+                inputsChecked = true;
+                item.classList.remove('error')
+                message[index].textContent = ''
+            }
+        })
+
+        if(!emailChecked) {
+            messageEmail.textContent = 'Поле заполнено не корректно';
+            messageEmail.classList.add('error')
+            inputEmail.classList.add('error')
+        }
+        
+        if(emailChecked && inputsChecked) {
+           alert('done')
+        }
+    }
+</script>
+
+</body>
+</html>
